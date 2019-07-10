@@ -30,5 +30,36 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Media extends Model
 {
-    //
+    public function articles()
+    {
+        return $this->morphedByMany(Article::class,"mediable")->withPivot("content_type");
+    }
+    public function banners()
+    {
+        return $this->morphedByMany(Banner::class,"mediable");
+    }
+    public function brands()
+    {
+        return $this->morphedByMany(Brand::class,"mediable");
+    }
+    public function categories()
+    {
+        return $this->morphedByMany(Category::class,"mediable");
+    }
+    public function designs()
+    {
+        return $this->morphedByMany(Design::class,"mediable");
+    }
+    public function products()
+    {
+        return $this->morphedByMany(Product::class,"mediable");
+    }
+    public function setting()
+    {
+        return $this->morphedByMany(Setting::class,"mediable");
+    }
+    public function social()
+    {
+        return $this->morphedByMany(Social::class,"mediable");
+    }
 }

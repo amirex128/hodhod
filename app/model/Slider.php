@@ -47,4 +47,9 @@ class Slider extends Model
 	protected $casts=[
     	'selected'=>'Array'
     ];
+
+    public function media()
+    {
+        return $this->morphToMany(Media::class,"mediable");
+    }
 }

@@ -45,4 +45,8 @@ class Brand extends Model
 	{
 		return $this->hasMany(Product::class);
 	}
+    public function media()
+    {
+        return $this->morphToMany(Media::class,"mediable");
+    }
 }

@@ -59,7 +59,11 @@ class Article extends Model
     public function categories()
 	{
 		return $this->morphToMany(Category::class, 'categorical');
+		
+	}
 
-
+    public function media()
+    {
+        return $this->morphToMany(Media::class,"mediable");
 	}
 }

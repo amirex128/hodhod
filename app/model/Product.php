@@ -152,4 +152,8 @@ class Product extends Model
 
     }
 
+    public function media()
+    {
+        return $this->morphToMany(Media::class,"mediable");
+    }
 }

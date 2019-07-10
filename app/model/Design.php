@@ -41,4 +41,9 @@ class Design extends Model
 		return $this->belongsToMany(Design::class)->withTimestamps();
 		
 	}
+
+    public function media()
+    {
+        return $this->morphToMany(Media::class,"mediable");
+    }
 }

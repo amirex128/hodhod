@@ -101,4 +101,9 @@ class Category extends Model
             $query->whereType(1);
         }]);
     }
+
+    public function media()
+    {
+        return $this->morphToMany(Media::class,"mediable");
+    }
 }

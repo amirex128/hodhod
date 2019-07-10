@@ -40,7 +40,6 @@ class ArticleController extends Controller
             $pathImage = $this->uploading($request->file('image'));
 
         }
-
         $newArticle = auth()->user()->articles()->create([
             "title" => $request->title,
             "body" => $request->editordata,

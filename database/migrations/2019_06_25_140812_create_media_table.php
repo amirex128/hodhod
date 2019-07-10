@@ -21,10 +21,10 @@ class CreateMediaTable extends Migration
             $table->Timestamps();
         });
 
-        Schema::create("mediatable",function (Blueprint $table){
-            $table->increments("id");
-            $table->morphs("media");
-            $table->Timestamps();
+        Schema::create("mediables",function (Blueprint $table){
+            $table->increments("media_id");
+            $table->morphs("mediable");
+            $table->string("content_type")->nullable();
         });
     }
 

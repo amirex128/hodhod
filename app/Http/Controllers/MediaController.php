@@ -32,10 +32,8 @@ class MediaController extends Controller
 
     public function store(Request $request)
     {
-        $newsItem=Article::find(1);
-    $model=$newsItem->addAllMediaFromRequest()->each(function ($fileAdder) {
-            $fileAdder->toMediaCollection();
-        });
+
+
 
         return Response::json([
             'message' => "ok"

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\model\Article;
 use App\model\Media;
 use App\User;
 use Artisan;
@@ -18,27 +19,35 @@ class TestController extends Controller
 
     public function store()
     {
+        request()->validate([
+
+            'image' => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+
+        ]);
 
         $file = \request()->file("image");
+
         if (\request()->hasFile("image")) {
 
             if (\request()->file("image")->isValid()) {
 
                 $extension = $file->getClientOriginalExtension();
-                $originalName=preg_replace('/\.[^.]+$/','',$file->getClientOriginalName());
-                $serverName=Str::slug(Carbon::now())."+".$file->getClientOriginalName();
-                $size = round($file->getSize()/1024);
-                $path=config("filesystems.disks.media.url").$serverName;
+                $originalName = preg_replace('/\.[^.]+$/', '', $file->getClientOriginalName());
+                $serverName = Str::slug(Carbon::now()) . "+" . $file->getClientOriginalName();
+                $size = round($file->getSize() / 1024);
+                $path = config("filesystems.disks.media.url") . "/" . $serverName;
 
-                $newMedia=new Media();
-                $newMedia->original_name=$originalName;
-                $newMedia->server_name=$serverName;
-                $newMedia->extension=$extension;
-                $newMedia->path=$path;
-                $newMedia->size=$size;
+                $newMedia = new Media();
+                $newMedia->original_name = $originalName;
+                $newMedia->server_name = $serverName;
+                $newMedia->extension = $extension;
+                $newMedia->path = $path;
+                $newMedia->size = $size;
+                $newMedia->articles()->attach(1, ["content_type" => "image"]);
+                $newMedia->save();
 
 
-                return \Storage::disk("media")->putFileAs("",$file,$serverName);
+                return \Storage::disk("media")->putFileAs("", $file, $serverName);
 
             }
         }

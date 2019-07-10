@@ -1,11 +1,11 @@
 <?php
-	
-	namespace App\model;
-	
-	use Illuminate\Database\Eloquent\Model;
-    use Illuminate\Database\Eloquent\SoftDeletes;
 
-    /**
+namespace App\model;
+
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+/**
  * App\model\Banner
  *
  * @property int $id
@@ -45,15 +45,20 @@
  * @mixin \Eloquent
  */
 class Banner extends Model
-	{
+{
 
-        use SoftDeletes;
+    use SoftDeletes;
 
-        protected $casts = [
-			'select' => 'array' ,
-			'image1' => 'array' ,
-			'type' => 'array' ,
-		];
-		
-		protected $guarded = ['id'];
-	}
+    protected $casts = [
+        'select' => 'array',
+        'image1' => 'array',
+        'type' => 'array',
+    ];
+
+    protected $guarded = ['id'];
+
+    public function media()
+    {
+        return $this->morphToMany(Media::class,"mediable");
+    }
+}
