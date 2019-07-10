@@ -2,6 +2,7 @@
 
 namespace App\Mail;
 
+use App\model\Setting;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -14,20 +15,24 @@ class TicketMail extends Mailable
      * @var \App\model\Ticket
      */
     public $title;
-    public $message;
+    public $text;
     public $user;
+    public $header_title;
+    public $banner_url;
 
     /**
      * Create a new message instance.
      *
      * @param \App\model\Ticket $ticket
      */
-    public function __construct($title,$message,$user)
+    public function __construct($title,$message,$user,$header_title="Title")
     {
         //
         //
+        $this->header_title=Setting::where("name", "title")->get("value")->first()["value"];
+        $this->banner_url="http://hodhod-gift.ir/reset_password.png";
         $this->title = $title;
-        $this->message = $message;
+        $this->text = $message;
         $this->user = $user;
     }
 
@@ -38,6 +43,7 @@ class TicketMail extends Mailable
      */
     public function build()
     {
-        return $this->from('support@hodhod-gift.ir')->view('Email.Ticket');
+        //return $this->from('support@hodhod-gift.ir')->view('Email.Ticket',compact(["title","message","user"]));
+        return $this->from('support@hodhod-gift.ir')->view('Email.Mail');
     }
 }
