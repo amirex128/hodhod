@@ -5,6 +5,40 @@ use App\model\Order;
 use App\User;
 use Carbon\Carbon;
 
+Route::get("/fontDownload/{id}", function ($req) {
+    return Storage::download("fonts/ttf/" . $req);
+});
+
+Route::prefix('debug')->group(function () {
+    Route::get("out",function (){
+        Auth::logout();
+        return "loged out";
+    });
+    Route::get("mail", function () {
+        $title = "title";
+
+        $user = "dear user";
+
+        $text = "<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quibus rebus vita consentiens virtutibusque respondens recta et honesta et constans et naturae congruens existimari potest. Cuius ad naturam apta ratio vera illa et summa lex a philosophis dicitur. Gracchum patrem non beatiorem fuisse quam fillum, cum alter stabilire rem publicam studuerit, alter evertere. Traditur, inquit, ab Epicuro ratio neglegendi doloris. Quid igitur dubitamus in tota eius natura quaerere quid sit effectum? Mihi enim erit isdem istis fortasse iam utendum. Si quae forte-possumus. </p><p>Duo Reges: constructio interrete. Qui-vere falsone, quaerere mittimus-dicitur oculis se privasse; Verum hoc idem saepe faciamus. Nec vero alia sunt quaerenda contra Carneadeam illam sententiam. Praeterea sublata cognitione et scientia tollitur omnis ratio et vitae degendae et rerum gerendarum. Nam ista vestra: Si gravis, brevis; Sed tamen est aliquid, quod nobis non liceat, liceat illis. Utrum igitur tibi litteram videor an totas paginas commovere? Inscite autem medicinae et gubernationis ultimum cum ultimo sapientiae comparatur. </p><p>Cur ipse Pythagoras et Aegyptum lustravit et Persarum magos adiit? Varietates autem iniurasque fortunae facile veteres philosophorum praeceptis instituta vita superabat. Restincta enim sitis stabilitatem voluptatis habet, inquit, illa autem voluptas ipsius restinctionis in motu est. Quae cum praeponunt, ut sit aliqua rerum selectio, naturam videntur sequi; </p><p>Isto modo ne improbos quidem, si essent boni viri. Si id dicis, vicimus. Sed tu istuc dixti bene Latine, parum plane. Dat enim intervalla et relaxat. Qui ita affectus, beatum esse numquam probabis; Ergo id est convenienter naturae vivere, a natura discedere. Quam tu ponis in verbis, ego positam in re putabam. Scio enim esse quosdam, qui quavis lingua philosophari possint; </p>";
+
+        $header_title = \App\model\Setting::where("name", "title")->get("value")->first()["value"];
+
+        $banner_url = "http://hodhod-gift.ir/reset_password.png";
+
+        $opt = "option txt";
+        return view("Email.Mail", compact(["opt", "title", "user", "text", "banner_url", "header_title"]));
+    });
+    Route::get('new_ticket', function () {
+        $user= User::find(auth()->id());
+        event(new \App\Event\Event\newTicketEvent("لنتی","برو لامصب :|",$user));
+        return $user;
+    });
+    Route::get("order",function (){
+        $order=Order::find(220);
+        //return $order;
+        event(new \App\Event\Event\newOrderEvent($order,false));
+    });
+});
 
 
 Route::post('/test/store', "TestController@store")->name("test.store");
