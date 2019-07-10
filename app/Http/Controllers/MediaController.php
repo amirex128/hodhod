@@ -34,10 +34,8 @@ class MediaController extends Controller
     {
 
 
+        return $this->mediaUploaderAllRequest("filesUpload");
 
-        return Response::json([
-            'message' => "ok"
-        ], 200);
     }
 
     /**

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\model\Media;
 use App\model\SmsRegister;
 use App\User;
 use Carbon\Carbon;
@@ -65,5 +66,84 @@ class Controller extends BaseController
     {
         return url(str_replace("home/hodhodg1/public_html/", "",$image ));
     }
+
+
+    public function mediaUploader($imageRequest,$model_id,$content_type=null,$methods=null)
+    {
+        $this->validate(request(),[
+            $imageRequest => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $file = \request()->file($imageRequest);
+
+        if (\request()->hasFile($imageRequest)) {
+
+            if (\request()->file($imageRequest)->isValid()) {
+
+                $extension = $file->getClientOriginalExtension();
+                $originalName = preg_replace('/\.[^.]+$/', '', $file->getClientOriginalName());
+                $serverName = Str::slug(Carbon::now()) . "+" . $file->getClientOriginalName();
+                $size = round($file->getSize() / 1024);
+                $path = config("filesystems.disks.media.url") . "/" . $serverName;
+
+
+                $newMedia = new Media();
+                $newMedia->original_name = $originalName;
+                $newMedia->server_name = $serverName;
+                $newMedia->extension = $extension;
+                $newMedia->path = $path;
+                $newMedia->size = $size;
+                if ($methods){
+                    $newMedia->{$methods}()->attach($model_id, ["content_type" => $content_type]);
+                }
+                $newMedia->save();
+
+
+                return \Storage::disk("media")->putFileAs("", $file, $serverName);
+
+            }
+        }
+
+    }
+    public function mediaUploaderAllRequest($imageRequest,$content_type=null,$model_id=null,$methods=null)
+    {
+        $this->validate(request(),[
+            $imageRequest => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+        ]);
+
+        $file = \request()->file($imageRequest);
+        foreach ($file as $item) {
+
+                if ($item->isValid()) {
+
+                    $extension = $file->getClientOriginalExtension();
+                    $originalName = preg_replace('/\.[^.]+$/', '', $file->getClientOriginalName());
+                    $serverName = Str::slug(Carbon::now()) . "+" . $file->getClientOriginalName();
+                    $size = round($file->getSize() / 1024);
+                    $path = config("filesystems.disks.media.url") . "/" . $serverName;
+
+
+                    $newMedia = new Media();
+                    $newMedia->original_name = $originalName;
+                    $newMedia->server_name = $serverName;
+                    $newMedia->extension = $extension;
+                    $newMedia->path = $path;
+                    $newMedia->size = $size;
+                    if ($methods){
+                        $newMedia->{$methods}()->attach($model_id, ["content_type" => $content_type]);
+                    }
+                    $newMedia->save();
+
+
+                     \Storage::disk("media")->putFileAs("", $file, $serverName);
+
+                }
+
+        }
+
+        return "ok";
+
+    }
+
+
 }
-//0936876224
