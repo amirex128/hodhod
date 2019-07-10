@@ -1,0 +1,1 @@
+[04-Jul-2019 00:06:18 UTC] PHP Fatal error:  Class 'Illuminate\Http\Resources\Json\JsonResource' not found in /home/hodhodg1/public_html/app/Http/Resources/CategoryCollection.php on line 7
