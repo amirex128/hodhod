@@ -74,7 +74,7 @@
                                                     @include("Components.recycle_form",["trashed"=>$trashed,"name"=>"user","model"=>$user])
                                                 </div>
                                             </div>
-                                            @include("Components.modal-delete", ["user" => auth()->user(), "name" => $user->name." ".$user->lname, "what" => "شبکه اجتماعی", "trashed" => $trashed, "model"=>$user])
+                                            @include("Components.modal-delete", ["user" => auth()->user(), "name" => $user->name." ".$user->lname, "what" => "کاربر", "trashed" => $trashed, "model"=>$user])
 
                                             {{--<div class="modal fade" id="modal-notification-ok" tabindex="-1"--}}
                                                  {{--role="dialog" aria-labelledby="modal-notification" aria-hidden="true">--}}

@@ -32,6 +32,7 @@
 
                 </div>
             </div>
+            @include("Components.modal-delete", ["user" => auth()->user(), "name" => $sub_category->name, "what" => "دسته بندی", "trashed" => $trashed, "model"=>$sub_category])
         </td>
 
     </tr>
