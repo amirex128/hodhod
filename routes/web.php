@@ -37,7 +37,15 @@ Route::prefix('debug')->group(function () {
         $order=Order::find(220);
         //return $order;
         event(new \App\Event\Event\newOrderEvent($order,false));
+        return "ok";
     });
+    Route::get("order",function (){
+        $product=\App\model\Product::find(19);
+        //return $order;
+        event(new \App\Event\Event\newProductEvent($product));
+        return $product;
+    });
+
 });
 
 

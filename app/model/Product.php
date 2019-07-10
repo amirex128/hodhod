@@ -75,7 +75,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Product extends Model
 {
 
-    use SoftDeletes;
+    //use SoftDeletes;
 
 //    protected $appends=["related"];
     protected $guarded = [];

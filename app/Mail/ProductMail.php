@@ -3,6 +3,8 @@
 namespace App\Mail;
 
 use App\model\Product;
+use App\model\Setting;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Mail\Mailable;
 use Illuminate\Queue\SerializesModels;
@@ -15,6 +17,11 @@ class ProductMail extends Mailable
      * @var Product
      */
     public $product;
+    public $header_title;
+    public $banner_url;
+    public $title;
+    public $user;
+    public $text;
 
     /**
      * Create a new message instance.
@@ -25,6 +32,11 @@ class ProductMail extends Mailable
     {
         //
         $this->product = $product;
+        $this->header_title=Setting::where("name", "title")->get("value")->first()["value"];
+        $this->banner_url="http://hodhod-gift.ir/reset_password.png";
+        $this->title = "محصول جدید";
+        $this->text = "محصول جدید ثبت شد";
+        $this->user=Setting::whereName("name")->get("value")->first()["value"];
     }
 
     /**
@@ -34,6 +46,6 @@ class ProductMail extends Mailable
      */
     public function build()
     {
-        return $this->view('Email.Product');
+        return $this->view('Email.Mail');
     }
 }

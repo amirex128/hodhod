@@ -19,21 +19,22 @@ class TicketMail extends Mailable
     public $user;
     public $header_title;
     public $banner_url;
+    public $opt;
 
     /**
      * Create a new message instance.
      *
      * @param \App\model\Ticket $ticket
      */
-    public function __construct($title,$message,$user,$header_title="Title")
+    public function __construct($title,$message,$user)
     {
         //
         //
         $this->header_title=Setting::where("name", "title")->get("value")->first()["value"];
         $this->banner_url="http://hodhod-gift.ir/reset_password.png";
-        $this->title = $title;
-        $this->text = $message;
-        $this->user = $user;
+        $this->title = "تیکت";
+        $this->text="تیکت در سیستم ثبت شد";
+        $this->user = $user->name." ".$user->lname;
     }
 
     /**
