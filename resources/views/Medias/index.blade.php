@@ -95,10 +95,9 @@
                                              class="m-3">
                                             <img class="preview shadow-sm text-center" v-bind:src="value.path"/>
 
-                                                    {{--checked--}}
+                                                {{--checked--}}
                                             <div v-if="media[key].checked"
                                                  class="dark-overlay-check-media"
-
                                                  v-bind:id="'cover-media'+parseInt(key)">
 
                                                 <div style="height: 100%;"
@@ -129,9 +128,7 @@
                                                  class="dark-overlay-check-media"
                                                  v-bind:id="'cover-media'+parseInt(key)">
 
-                                                <div style="height: 100%;"
-                                                     class=" d-flex justify-content-around align-items-center">
-
+                                                <div style="height: 100%;" class=" d-flex justify-content-around align-items-center">
                                                     <div class="text-white">
                                                         <i style="cursor:pointer" v-on:click="iconEditClick(key)"
                                                            v-bind:id="'icon-edit'+parseInt(key)"
@@ -146,9 +143,10 @@
                                                     <div v-on:click="iconCheckedClick(key)" class="text-white">
                                                         <i style="cursor:pointer"
                                                            v-bind:id="'icon-check'+parseInt(key)"
-                                                           class="fas fa-check-circle"
+                                                           class="far fa-check-circle"
                                                         ></i>
                                                     </div>
+
                                                 </div>
                                             </div>
 
@@ -171,6 +169,29 @@
                                     <div class="row">
                                         <div class="rtl col-sm-8 d-flex flex-wrap justify-content-start align-content-center">
 
+                                            <div v-for="(value, key) in checkedFiles">
+                                                <div style="position:relative;"
+                                                     class="m-3">
+                                                    <img class="preview shadow-sm text-center" v-bind:src="value.path"/>
+
+                                                    <div
+                                                         class="dark-overlay-check-list"
+                                                         >
+
+                                                        <div style="height: 100%;"
+                                                             class=" d-flex justify-content-around align-items-center">
+
+                                                            <div class="text-white">
+                                                                <i style="cursor:pointer" v-on:click="iconRemoveClickList(key)"
+                                                                   v-bind:id="'icon-remove'+parseInt(key)"
+                                                                   class="far fa-trash-alt"></i>
+                                                            </div>
+
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                            </div>
 
 
                                         </div>
@@ -221,6 +242,7 @@
             methods: {
                 iconCheckedClick(key){
                     this.media[key].checked=!this.media[key].checked;
+                    this.$forceUpdate()
                 },
                 submitFiles() {
                     /*
@@ -294,14 +316,28 @@
                 showDark(key) {
                     $("#cover" + parseInt(key)).css("opacity", "1")
                 },
+                showDarkList(key) {
+                    $("#cover-list" + parseInt(key)).css("opacity", "1")
+                },
                 showDarkMedia(key) {
-                    $("#cover-media" + parseInt(key)).css("opacity", "1")
+                    $("#cover-media" + parseInt(key)).css("display", "block")
                 },
                 hideDark(key) {
                     $("#cover" + parseInt(key)).css("opacity", "0")
                 },
+                hideDarkList(key) {
+                    $("#cover-list" + parseInt(key)).css("opacity", "0")
+                },
                 hideDarkMedia(key) {
-                    $("#cover-media" + parseInt(key)).css("opacity", "0")
+                    if (!this.media[key].checked){
+                        $("#cover-media" + parseInt(key)).css("display", "none")
+
+                    }
+                },
+                checkTrue(){
+                    this.checkedFiles = this.media.filter(function (value) {
+                      return value.checked===true;
+                  })  
                 },
                 determineDragAndDropCapable() {
                     /*
@@ -367,6 +403,7 @@
             },
             updated() {
                 this.getImagePreviews();
+                this.checkTrue()
             },
             mounted() {
 
@@ -459,7 +496,7 @@
             transition: all 0.1s ease-in-out;
             opacity: 0;
         }
-        .dark-overlay-media {
+        .dark-overlay-check-list {
             background: rgba(0, 0, 0, 0.6);
             position: absolute;
             top: 0px;
@@ -468,10 +505,12 @@
             width: 110px;
             height: 110px;
             transition: all 0.1s ease-in-out;
-            opacity: 0;
+            opacity: 1;
         }
         .dark-overlay-check-media {
             background: rgba(0, 0, 0, 0.6);
+            display: none;
+
             position: absolute;
             top: 0px;
             left: 0px;
@@ -494,7 +533,7 @@
             margin: auto;
             padding: 10px;
             border: 1px solid #ddd;
-
+        }
         html {
             overflow: scroll;
             overflow-x: hidden;
