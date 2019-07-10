@@ -85,44 +85,49 @@
                             </div>
 
 
-                            <div class="col-12 my-3 file-listing">
+                            <div class="col-12 my-3 file-listing-media">
                                 <h3 class="text-right">رسانه ها</h3>
                                 <div class="d-flex flex-wrap justify-content-center align-content-center">
                                     <div v-for="(value, key) in media">
                                         <div style="position:relative;"
-                                             v-on:mouseenter="showDark(key)"
-                                             v-on:mouseleave="hideDark(key)"
+                                             v-on:mouseenter="showDarkMedia(key)"
+                                             v-on:mouseleave="hideDarkMedia(key)"
                                              class="m-3">
                                             <img class="preview shadow-sm text-center" v-bind:src="value.path"/>
-                                            <div class="dark-overlay"
-                                                 v-bind:id="'cover'+parseInt(key)">
-                                                <div class=" d-flex justify-content-around align-items-center h-100">
-                                                    <div class="text-white">
-                                                        <i style="cursor:pointer"
-                                                           v-on:click="remove(key)"
-                                                           v-bind:id="'icon-remove'+parseInt(key)"
-                                                           class="far fa-trash-alt"></i>
-                                                    </div>
-                                                </div>
-                                            </div>
+
+                                                    {{--checked--}}
                                             <div v-if="media[key].checked"
-                                                 class="dark-overlay-check"
-                                                 v-bind:id="'cover'+parseInt(key)">
+                                                 class="dark-overlay-check-media"
+
+                                                 v-bind:id="'cover-media'+parseInt(key)">
 
                                                 <div style="height: 100%;"
                                                      class=" d-flex justify-content-around align-items-center">
+
+                                                    <div class="text-white">
+                                                        <i style="cursor:pointer" v-on:click="iconEditClick(key)"
+                                                           v-bind:id="'icon-edit'+parseInt(key)"
+                                                           class="far fa-edit"></i>
+                                                    </div>
+
+                                                    <div class="text-white">
+                                                        <i style="cursor:pointer" v-on:click="iconRemoveClick(key)"
+                                                           v-bind:id="'icon-remove'+parseInt(key)"
+                                                           class="far fa-trash-alt"></i>
+                                                    </div>
                                                     <div v-on:click="iconCheckedClick(key)" class="text-white">
                                                         <i style="cursor:pointer"
                                                            v-bind:id="'icon-check'+parseInt(key)"
                                                            class="fas fa-check-circle"
-
                                                         ></i>
                                                     </div>
                                                 </div>
                                             </div>
+
+                                                     {{--checked--}}
                                             <div v-if="media[key].checked==false"
-                                                 class="dark-overlay-check"
-                                                 v-bind:id="'cover'+parseInt(key)">
+                                                 class="dark-overlay-check-media"
+                                                 v-bind:id="'cover-media'+parseInt(key)">
 
                                                 <div style="height: 100%;"
                                                      class=" d-flex justify-content-around align-items-center">
@@ -214,6 +219,9 @@
 
             },
             methods: {
+                iconCheckedClick(key){
+                    this.media[key].checked=!this.media[key].checked;
+                },
                 submitFiles() {
                     /*
                       Initialize the form data
@@ -247,8 +255,9 @@
 
 
                         console.log(res)
-                        if (res.data.message == "ok") {
+                        if (res.data == "ok") {
                             mythis.reGetMedia()
+                            mythis.filesUpload=[]
                             mythis.$forceUpdate()
                         }
 
@@ -273,6 +282,10 @@
                     this.filesUpload.splice(key, 1);
                     this.$forceUpdate()
                 },
+                removeMedia(key) {
+                    this.filesUpload.splice(key, 1);
+                    this.$forceUpdate()
+                },
                 iconEditClick() {
                 },
                 iconRemoveClick() {
@@ -281,8 +294,14 @@
                 showDark(key) {
                     $("#cover" + parseInt(key)).css("opacity", "1")
                 },
+                showDarkMedia(key) {
+                    $("#cover-media" + parseInt(key)).css("opacity", "1")
+                },
                 hideDark(key) {
                     $("#cover" + parseInt(key)).css("opacity", "0")
+                },
+                hideDarkMedia(key) {
+                    $("#cover-media" + parseInt(key)).css("opacity", "0")
                 },
                 determineDragAndDropCapable() {
                     /*
@@ -440,8 +459,18 @@
             transition: all 0.1s ease-in-out;
             opacity: 0;
         }
-
-        .dark-overlay-check {
+        .dark-overlay-media {
+            background: rgba(0, 0, 0, 0.6);
+            position: absolute;
+            top: 0px;
+            left: 0px;
+            border-radius: 5px;
+            width: 110px;
+            height: 110px;
+            transition: all 0.1s ease-in-out;
+            opacity: 0;
+        }
+        .dark-overlay-check-media {
             background: rgba(0, 0, 0, 0.6);
             position: absolute;
             top: 0px;
@@ -460,6 +489,11 @@
             border: 1px solid #ddd;
 
         }
+        div.file-listing-media {
+            width: 400px;
+            margin: auto;
+            padding: 10px;
+            border: 1px solid #ddd;
 
         html {
             overflow: scroll;

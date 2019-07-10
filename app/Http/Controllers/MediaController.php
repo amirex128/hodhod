@@ -22,17 +22,18 @@ class MediaController extends Controller
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Media[]|\Illuminate\Database\Eloquent\Collection
      */
     public function create()
     {
-        //
+        return Media::all();
     }
 
 
     public function store(Request $request)
     {
 
+//       return $request->file("filesUpload");
 
         return $this->mediaUploaderAllRequest("filesUpload");
 

@@ -30,6 +30,13 @@ use Illuminate\Database\Eloquent\Model;
  */
 class Media extends Model
 {
+
+    protected $appends=["checked"];
+
+    public function getCheckedAttribute()
+    {
+        return false;
+    }
     public function articles()
     {
         return $this->morphedByMany(Article::class,"mediable")->withPivot("content_type");

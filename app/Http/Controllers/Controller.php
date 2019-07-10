@@ -10,6 +10,7 @@ use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
 use Illuminate\Foundation\Bus\DispatchesJobs;
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;
+use Illuminate\Support\Facades\Request;
 use Str;
 
 class Controller extends BaseController
@@ -107,19 +108,19 @@ class Controller extends BaseController
     }
     public function mediaUploaderAllRequest($imageRequest,$content_type=null,$model_id=null,$methods=null)
     {
-        $this->validate(request(),[
-            $imageRequest => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-        ]);
+//        $this->validate(request(),[
+//            $imageRequest => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+//        ]);
 
-        $file = \request()->file($imageRequest);
-        foreach ($file as $item) {
+        $files = \request()->file($imageRequest);
+        foreach ($files as $item) {
 
                 if ($item->isValid()) {
 
-                    $extension = $file->getClientOriginalExtension();
-                    $originalName = preg_replace('/\.[^.]+$/', '', $file->getClientOriginalName());
-                    $serverName = Str::slug(Carbon::now()) . "+" . $file->getClientOriginalName();
-                    $size = round($file->getSize() / 1024);
+                    $extension = $item->getClientOriginalExtension();
+                    $originalName = preg_replace('/\.[^.]+$/', '', $item->getClientOriginalName());
+                    $serverName = Str::slug(Carbon::now()) . "+" . $item->getClientOriginalName();
+                    $size = round($item->getSize() / 1024);
                     $path = config("filesystems.disks.media.url") . "/" . $serverName;
 
 
@@ -135,7 +136,7 @@ class Controller extends BaseController
                     $newMedia->save();
 
 
-                     \Storage::disk("media")->putFileAs("", $file, $serverName);
+                     \Storage::disk("media")->putFileAs("", $item, $serverName);
 
                 }
 
