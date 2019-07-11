@@ -111,7 +111,7 @@ class Controller extends BaseController
 //        $this->validate(request(),[
 //            $imageRequest => 'required|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
 //        ]);
-
+        $media=[];
         $files = \request()->file($imageRequest);
         foreach ($files as $item) {
 
@@ -138,11 +138,12 @@ class Controller extends BaseController
 
                      \Storage::disk("media")->putFileAs("", $item, $serverName);
 
+                     $media[]=$newMedia;
                 }
 
         }
 
-        return "ok";
+        return response(["status"=>"ok","new"=>$media],200);
 
     }
 

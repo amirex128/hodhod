@@ -6,6 +6,7 @@ use App\model\Article;
 use App\model\Media;
 use Illuminate\Http\Request;
 use Response;
+use Storage;
 
 class MediaController extends Controller
 {
@@ -78,9 +79,15 @@ class MediaController extends Controller
      *
      * @param Media $media
      * @return \Illuminate\Http\Response
+     * @throws \Exception
      */
-    public function destroy(Media $media)
+    public function destroy($media)
     {
-        //
+        $file=Media::find((int)$media);
+
+        $file->delete();
+        Storage::disk("media")->delete($file->serverName);
+
+        return "deleted";
     }
 }
