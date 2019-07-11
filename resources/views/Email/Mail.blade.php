@@ -124,7 +124,7 @@
                                                             <td
                                                                 style="font-family:Tahoma,Helvetica,sans-serif;font-size:14px;color:#757575;line-height:24px;text-align:right;direction:rtl;padding:0 10px;word-wrap:break-word">
                                                                 <p><strong>{{$user}} عزیز</strong></p>
-                                                                <p><br>{{$text}}</p>
+                                                                <pre><br>{{$text}}</pre>
                                                             </td>
                                                         </tr>
                                                         <tr>

@@ -21,7 +21,6 @@
 
                         <div>
                             <span style="font-size: 15px" class="mt-3 text-white">جهت دانلود اپلیکیشن کد بالا را اسکن نمایید</span>
-                            <h1>dasfsdgsdgdfgs</h1>
                         </div>
                     </div>
                 </div>
