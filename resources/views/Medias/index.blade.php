@@ -90,28 +90,28 @@
                                 <div class="d-flex flex-wrap justify-content-center align-content-center">
                                     <div v-for="(value, key) in media">
                                         <div style="position:relative;"
-                                             v-on:mouseenter="showDarkMedia(key)"
-                                             v-on:mouseleave="hideDarkMedia(key)"
+                                             v-on:mouseenter="showDarkMedia(value.id)"
+                                             v-on:mouseleave="hideDarkMedia(value.id)"
                                              class="m-3">
                                             <img class="preview shadow-sm text-center" v-bind:src="value.path"/>
 
                                                 {{--checked--}}
                                             <div v-if="media[key].checked"
                                                  class="dark-overlay-check-media"
-                                                 v-bind:id="'cover-media'+parseInt(key)">
+                                                 v-bind:id="'cover-media'+parseInt(value.id)">
 
                                                 <div style="height: 100%;"
                                                      class=" d-flex justify-content-around align-items-center">
 
                                                     <div class="text-white">
-                                                        <i style="cursor:pointer" v-on:click="iconEditClick(key)"
-                                                           v-bind:id="'icon-edit'+parseInt(key)"
+                                                        <i style="cursor:pointer" v-on:click="iconEditClick(value.id)"
+                                                           v-bind:id="'icon-edit'+parseInt(value.id)"
                                                            class="far fa-edit"></i>
                                                     </div>
 
                                                     <div class="text-white">
-                                                        <i style="cursor:pointer" v-on:click="iconRemoveClick(key)"
-                                                           v-bind:id="'icon-remove'+parseInt(key)"
+                                                        <i style="cursor:pointer" v-on:click="iconRemoveClick(value.id)"
+                                                           v-bind:id="'icon-remove'+parseInt(value.id)"
                                                            class="far fa-trash-alt"></i>
                                                     </div>
                                                     <div v-on:click="iconCheckedClick(key)" class="text-white">
@@ -182,7 +182,7 @@
                                                              class=" d-flex justify-content-around align-items-center">
 
                                                             <div class="text-white">
-                                                                <i style="cursor:pointer" v-on:click="iconRemoveFromList(key)"
+                                                                <i style="cursor:pointer" v-on:click="iconRemoveFromList(value)"
                                                                    class="far fa-trash-alt"></i>
                                                             </div>
 
@@ -239,7 +239,13 @@
 
             },
             methods: {
-                iconRemoveFromList(key){
+                iconRemoveFromList(value){
+                    this.media.forEach((item,key)=>{
+                         if (value.id==item.id){
+                            item.checked=false;
+                             this.$forceUpdate();
+                        }
+                    })
 
                 },
                 iconCheckedClick(key){
