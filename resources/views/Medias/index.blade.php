@@ -169,7 +169,7 @@
                                     <div class="row">
                                         <div class="rtl col-sm-8 d-flex flex-wrap justify-content-start align-content-center">
 
-                                            <div v-for="(value, key) in checkedFiles">
+                                            <div v-for="(value, key) in checkTrue()">
                                                 <div style="position:relative;"
                                                      class="m-3">
                                                     <img class="preview shadow-sm text-center" v-bind:src="value.path"/>
@@ -182,8 +182,7 @@
                                                              class=" d-flex justify-content-around align-items-center">
 
                                                             <div class="text-white">
-                                                                <i style="cursor:pointer" v-on:click="iconRemoveClickList(key)"
-                                                                   v-bind:id="'icon-remove'+parseInt(key)"
+                                                                <i style="cursor:pointer" v-on:click="iconRemoveFromList(key)"
                                                                    class="far fa-trash-alt"></i>
                                                             </div>
 
@@ -240,6 +239,9 @@
 
             },
             methods: {
+                iconRemoveFromList(key){
+
+                },
                 iconCheckedClick(key){
                     this.media[key].checked=!this.media[key].checked;
                     this.$forceUpdate()
@@ -335,7 +337,7 @@
                     }
                 },
                 checkTrue(){
-                    this.checkedFiles = this.media.filter(function (value) {
+                  return this.media.filter(function (value) {
                       return value.checked===true;
                   })  
                 },
@@ -403,7 +405,6 @@
             },
             updated() {
                 this.getImagePreviews();
-                this.checkTrue()
             },
             mounted() {
 
