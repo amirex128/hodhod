@@ -8,7 +8,8 @@
         <!-- Brand -->
 
         <a style="margin: 0 auto" href="{{ route('home') }}">
-            <img  src="{{ asset('main_icon.png') }}" width="128px" height="128px" class="shadow-sm" alt="...">
+{{--            <img  src="{{ asset('main_icon.png') }}" width="128px" height="128px" class="shadow-sm" alt="...">--}}
+            <h1>فروشگاه هدهد</h1>
         </a>
         <!-- User -->
         <ul class="nav align-items-center d-md-none">
@@ -174,14 +175,14 @@
                     </li>
                 @endcan
 
-                @can('create-slider')
+{{--                @can('create-slider')--}}
 
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('media.index') }}">
-                            <i class="ni ni-album-2 text-info"></i> مدیریت رسانه ها
-                        </a>
-                    </li>
-                @endcan
+{{--                    <li class="nav-item">--}}
+{{--                        <a class="nav-link" href="{{ route('media.index') }}">--}}
+{{--                            <i class="ni ni-album-2 text-info"></i> مدیریت رسانه ها--}}
+{{--                        </a>--}}
+{{--                    </li>--}}
+{{--                @endcan--}}
 
             </ul>
             <!-- Divider -->
