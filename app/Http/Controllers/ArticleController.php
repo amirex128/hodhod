@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\model\Article;
 use App\model\Category;
+use App\model\Media;
 use Illuminate\Http\Request;
 
 class ArticleController extends Controller
@@ -22,7 +23,7 @@ class ArticleController extends Controller
     public function create()
     {
 
-        return view('Articles.create', ['categories' => Category::whereType(2)->with("childrenRecursive")->whereNull("parent_id")->get()]);
+        return view('Articles.create', ['categories' => Category::whereType(2)->with("childrenRecursive")->whereNull("parent_id")->get(),"media"=>Media::all()]);
     }
 
     public function store(Request $request)
@@ -56,7 +57,7 @@ class ArticleController extends Controller
     {
 
 
-        return view('Articles.edit', ['categories' =>  Category::with("childrenRecursiveArticle")->whereNull('parent_id')->get(), 'article' => $article]);
+        return view('Articles.edit', ['categories' =>  Category::with("childrenRecursiveArticle")->whereNull('parent_id')->get(), 'article' => $article,"media"=>Media::all()]);
     }
 
 
